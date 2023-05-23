@@ -16,5 +16,5 @@ authorize($excel_file['user_id'] === $current_user_id);
 view('views/spreadsheet/edit.view.php', [
     'title' => "Spreadsheet Parser Edit",
     'errors' => [],
-    'file' => $excel_file
+    'file' => $excel_file,
 ]);

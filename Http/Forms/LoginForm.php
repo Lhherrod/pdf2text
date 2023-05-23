@@ -20,22 +20,11 @@ class LoginForm
         if (!Validator::string($attributes['password'])) {
             $this->errors['password'] = 'Please provide a password of at least 10 characters.';
         }
-
-        // if (!Validator::string($this->attributes['name'])) {
-        //     $this->errors['name'] = 'Please provide a name of at least 5 characters';
-        // }
-
-        // return empty($this->errors);
     }
 
     public static function validate(array $attributes): self
     {
         $instance = new static($attributes);
-        // if($instance->errors() === []) {
-        //     dd('it is');
-        // } else {
-        //     dd('its not');
-        // }
         return $instance->failed() ?  $instance->throw() : $instance;
     }
 

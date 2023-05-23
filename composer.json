@@ -6,12 +6,14 @@
         }
     ],
     "require": {
-        "illuminate/collections": "^10.11"
+        "illuminate/collections": "^10.11",
+        "phpoffice/phpspreadsheet": "^1.28"
     },
     "autoload": {
         "psr-4": {
             "Core\\": "Core/",
-            "Http\\": "Http/"
+            "Http\\": "Http/",
+            "App\\Spreadsheet\\": "App/Spreadsheet/"
         }
     },
     "require-dev": {
