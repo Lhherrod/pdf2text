@@ -12,7 +12,7 @@ $router->get('/spreadsheet-file', 'spreadsheet/show.php');
 
 $router->delete('/spreadsheet-file', 'spreadsheet/destroy.php');
 
-$router->get('/spreadsheet-file/edit', 'spreadsheet/edit.php');
+$router->get('/spreadsheet-file/edit', 'spreadsheet/edit.php')->only('auth');
 
 $router->patch('/spreadsheet-file', 'spreadsheet/update.php');
 
