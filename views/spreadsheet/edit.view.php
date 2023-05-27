@@ -49,6 +49,6 @@ include(basePath('views/partials/head.php'));
             <?php endforeach; ?>
         </tbody>
     </table>
-    <p>ending balance is $99,306.32</p>
+    <p>ending balance is 100,406.21</p>
 <?php endif ?>
 <?php unset($_SESSION['results']) ?>

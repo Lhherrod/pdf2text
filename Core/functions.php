@@ -68,3 +68,13 @@ function upload(string $target_dir, string $temp_name, string $path_filename_ext
     move_uploaded_file($temp_name, $path_filename_ext);
     $_SESSION['filename'] = $filename;
 }
+
+function swapItOut($deposit_type): string
+{
+    return match ($deposit_type) {
+        'deposit' => 'deposit',
+        'wire' => 'wire',
+        'check' => 'check',
+        'withdrawal' => 'withdrawal'
+    };
+}

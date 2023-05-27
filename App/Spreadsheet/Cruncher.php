@@ -8,27 +8,26 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class Cruncher
 {
     private static $data;
+
     public function __construct(private $spreadsheet)
     {
         $this->spreadsheet = IOFactory::load($spreadsheet);
+        static::$data = $this->spreadsheet->getActiveSheet()->toArray(null, true, true, true);
     }
 
-    public function start(): void
+    public function start()
     {
-        if ($this->spreadsheet) {
-            static::$data = $this->spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-            static::balance();
-        }
+        $this->spreadsheet ?  static::balance() : abort();
     }
 
-    private static function balance(): void
+    private static function balance()
     {
-        $starting_balance = "100.41";
+        $starting_balance = trim(preg_replace('/[$]/', "", "$100.41"));
         $number_cruncher = [];
 
         // loop through each array...
         // echo 'starting posted balance is $100.41' . '<br/>';
-        // echo 'we are adding or subtracting based on if trans adds or subtracts mone';
+        // echo 'we are adding or subtracting based on if trans adds or subtracts money';
         foreach (static::$data as $array) {
             if ($array['A'] === 'Month') {
                 $array['F'] = 'posted_balance';
@@ -38,29 +37,31 @@ class Cruncher
             if ($array['A'] !== 'Month') {
                 if (is_string($array['D'])) {
                     $array['D'] = trim($array['D']);
-                    $value = preg_replace('/[\$,]/', '', $array['D']);
+                    $value = preg_replace('/[$,]/', "", $array['D']);
                     $array['D'] = $value;
                 }
-            }
 
-            // the magic...add and subtract based on depsosit or withdrawal
-            if ($array['E'] === trim('deposit') || $array['E'] === trim('wire') || $array['E'] === trim('check')) {
-                $array['D'] = trim($array['D']);
-                $value = preg_replace('/[\$,]/', '', $array['D']);
-                $array['F'] = $array['D'] + $starting_balance;
-                $starting_balance = $array['F'];
-            } else {
-                if ($array['A'] !== 'Month') {
+                // the magic...add and subtract based on depsosit or withdrawal
+                $transaction_type = swapItOut(trim($array['E']));
+
+                if ($transaction_type !== 'withdrawal') {
+                    $value = preg_replace('/[^0-9]/s', "", $array['D']);
+                    $array['D'] = $value;
+                    $array['F'] = $array['D'] + $starting_balance;
+                    $starting_balance = $array['F'];
+                } else {
                     $array['F'] = $starting_balance - $array['D'];
                     $starting_balance = $array['F'];
                 }
             }
+
             // add new data to array that we will return to the front-end
             if ($array['A'] === 'Month') {
                 array_shift($array);
             } else {
                 $number_cruncher[] = $array;
             }
+
             // print out new array after each calculation is performed
             // print("<pre>" . print_r($array, true) . "</pre>");
         }
