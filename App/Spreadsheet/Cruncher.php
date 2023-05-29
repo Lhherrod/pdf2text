@@ -43,7 +43,7 @@ class Cruncher
                 }
 
                 // the magic...add and subtract based on depsosit or withdrawal
-                if ($array['E'] !== 'withdrawal') {
+                if (trim($array['E']) !== 'withdrawal') {
                     $value = preg_replace('/[^0-9]/s', "", $array['D']);
                     $array['D'] = $value;
                     $array['F'] = $array['D'] + $starting_balance;
