@@ -12,7 +12,8 @@ class Cruncher
     public function __construct(private $spreadsheet)
     {
         $this->spreadsheet = IOFactory::load($spreadsheet);
-        static::$data = $this->spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+        static::$data = $this->spreadsheet->getActiveSheet()
+        ->toArray(null, true, true, true);
     }
 
     public function start()
@@ -42,9 +43,7 @@ class Cruncher
                 }
 
                 // the magic...add and subtract based on depsosit or withdrawal
-                $transaction_type = swapItOut(trim($array['E']));
-
-                if ($transaction_type !== 'withdrawal') {
+                if ($array['E'] !== 'withdrawal') {
                     $value = preg_replace('/[^0-9]/s', "", $array['D']);
                     $array['D'] = $value;
                     $array['F'] = $array['D'] + $starting_balance;
