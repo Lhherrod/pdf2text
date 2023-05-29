@@ -62,9 +62,9 @@ function old(string $key, string $default = ''): string
     return Core\Session::get('old')[$key] ?? $default;
 }
 
-function upload(string $target_dir, string $temp_name, string $path_filename_ext, string $filename): void
+function upload(array ...$file_attributes): void
 {
-    mkdir($target_dir, 0777, TRUE);
-    move_uploaded_file($temp_name, $path_filename_ext);
-    $_SESSION['filename'] = $filename;
+    mkdir($file_attributes[0]['target_dir'], 0777, TRUE);
+    move_uploaded_file($file_attributes[0]['temp_name'], $file_attributes[0]['path_filename_ext']);
+    $_SESSION['filename'] = $file_attributes[0]['filename'];
 }
