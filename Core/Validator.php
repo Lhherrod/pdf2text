@@ -46,21 +46,6 @@ class Validator
         }
         return true;
     }
-    // public static function fileExists(array $file): bool
-    // {
-    //     $target_dir = "files/customers/" . makeSlug(pathinfo($file['name'])['filename']) . "/transactions/";
-    //     $filename = makeSlug(pathinfo($file['name'])['filename']);
-    //     $ext = pathinfo($file['name'])['extension'];
-    //     $temp_name = $file['tmp_name'];
-    //     $path_filename_ext = $target_dir . $filename . '-12345' . "." . $ext;
-
-    //     if (file_exists($path_filename_ext)) {
-    //         return false;
-    //     } else {
-    //         upload($target_dir, $temp_name, $path_filename_ext, $filename);
-    //         return true;
-    //     }
-    // }
 
     public static function fileExists(array $file): bool
     {
